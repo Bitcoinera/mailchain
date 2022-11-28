@@ -38,7 +38,7 @@ async function smartContractListener() {
           <p>Data: ${JSON.stringify(event)}</p>`, // html body
       },
     });
-    console.log(`New motion has been enacted:\n ${result}`);
+    console.log(`New motion has been enacted:\n ${JSON.stringify(event)}`);
   });
 }
 
