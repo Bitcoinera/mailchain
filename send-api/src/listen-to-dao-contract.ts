@@ -22,10 +22,11 @@ async function smartContractListener() {
   console.log(
     "Listening for transfers on the Goerli Lido Finance DAO contract"
   );
-  contract.on("MotionEnacted", async (from, to, value, event) => {
+  contract.on("MotionEnacted", async (id, to, data) => {
     let info = {
-      from: from,
-      data: event,
+      id: id,
+      to: to,
+      data: data,
     };
     // send email
     const result = await mailchain.sendMail({
@@ -34,11 +35,12 @@ async function smartContractListener() {
       subject: "New motion enacted on Lido Finance", // subject line
       content: {
         text: `${JSON.stringify(info)}`, // plain text body
-        html: `<p>Enacter: ${from}</p>
-          <p>Data: ${JSON.stringify(event)}</p>`, // html body
+        html: `<p>Proposal id: ${id}</p>
+          <p>Whatever this is: ${to}</p>
+          <p>Data: ${JSON.stringify(data)}</p>`, // html body
       },
     });
-    console.log(`New motion has been enacted:\n ${JSON.stringify(event)}`);
+    console.log(`New motion has been enacted:\n ${JSON.stringify(data)}`);
   });
 }
 
