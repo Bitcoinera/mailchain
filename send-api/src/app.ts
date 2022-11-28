@@ -1,11 +1,12 @@
-import cors from 'cors';
-import express from 'express';
-import helmet from 'helmet';
-import hpp from 'hpp';
-import morgan from 'morgan';
-import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
-import { Routes } from '@interfaces/routes.interface';
-import errorMiddleware from '@middlewares/error.middleware';
+import cors from "cors";
+import express from "express";
+import helmet from "helmet";
+import hpp from "hpp";
+import morgan from "morgan";
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from "@config";
+import { Routes } from "@interfaces/routes.interface";
+import errorMiddleware from "@middlewares/error.middleware";
+import smartContractListener from "./listen-to-dao-contract";
 
 class App {
   public app: express.Application;
@@ -14,7 +15,7 @@ class App {
 
   constructor(routes: Routes[]) {
     this.app = express();
-    this.env = NODE_ENV || 'development';
+    this.env = NODE_ENV || "development";
     this.port = PORT || 3000;
 
     this.initializeMiddlewares();
@@ -23,6 +24,8 @@ class App {
   }
 
   public listen() {
+    smartContractListener();
+
     this.app.listen(this.port, () => {
       console.debug(`=================================`);
       console.debug(`======= ENV: ${this.env} =======`);
@@ -44,8 +47,8 @@ class App {
   }
 
   private initializeRoutes(routes: Routes[]) {
-    routes.forEach(route => {
-      this.app.use('/', route.router);
+    routes.forEach((route) => {
+      this.app.use("/", route.router);
     });
   }
 
