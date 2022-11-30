@@ -22,18 +22,18 @@ async function smartContractListener() {
   console.log(
     "Listening for transfers on the Ethereum Lido Finance DAO contract"
   );
-  contract.on("ExecuteVote", async (voteId) => {
-    console.log(`Proposal #${voteId} has been enacted on Lido Finance`);
+  contract.on("ExecuteVote", async (proposalId) => {
+    console.log(`Proposal #${proposalId} has been enacted on Lido Finance`);
     // send email
 
     try {
       const result = await mailchain.sendMail({
         from: `bitcoinera@mailchain.com`, // sender address
         to: [mailchainAddress], // list of recipients (blockchain or mailchain addresses)
-        subject: `Proposal #${voteId} enacted on Lido Finance`, // subject line
+        subject: `Proposal #${proposalId} enacted on Lido Finance`, // subject line
         content: {
-          text: `Proposal #${voteId} has been successfully enacted! 🎉`, // plain text body
-          html: `<p>Proposal #${voteId} has been successfully enacted! 🎉</p>`, // html body
+          text: `Proposal #${proposalId} has been successfully enacted! 🎉`, // plain text body
+          html: `<p>Proposal #${proposalId} has been successfully enacted! 🎉</p>`, // html body
         },
       });
       console.log(`Notification email sent: ${result}`);
