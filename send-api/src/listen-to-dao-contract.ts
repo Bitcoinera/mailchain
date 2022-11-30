@@ -22,25 +22,24 @@ async function smartContractListener() {
   console.log(
     "Listening for transfers on the Goerli Lido Finance DAO contract"
   );
-  contract.on("MotionEnacted", async (id, to, data) => {
-    let info = {
-      id: id,
-      to: to,
-      data: data,
-    };
+  contract.on("MotionEnacted", async (motionId) => {
+    console.log(`Motion #${motionId} has been enacted on Lido Finance`);
     // send email
-    const result = await mailchain.sendMail({
-      from: `bitcoinera@mailchain.com`, // sender address
-      to: [mailchainAddress], // list of recipients (blockchain or mailchain addresses)
-      subject: "New motion enacted on Lido Finance", // subject line
-      content: {
-        text: `${JSON.stringify(info)}`, // plain text body
-        html: `<p>Proposal id: ${id}</p>
-          <p>Whatever this is: ${to}</p>
-          <p>Data: ${JSON.stringify(data)}</p>`, // html body
-      },
-    });
-    console.log(`New motion has been enacted:\n ${JSON.stringify(data)}`);
+
+    try {
+      const result = await mailchain.sendMail({
+        from: `bitcoinera@mailchain.com`, // sender address
+        to: [mailchainAddress], // list of recipients (blockchain or mailchain addresses)
+        subject: `Motion #${motionId} enacted on Lido Finance`, // subject line
+        content: {
+          text: `Proposal #${motionId} has been successfully enacted! 🎉`, // plain text body
+          html: `<p>Proposal #${motionId} has been successfully enacted! 🎉</p>`, // html body
+        },
+      });
+      console.log(`Notification email sent: ${result}`);
+    } catch (error) {
+      console.error(`Notification email could not be sent: ${error}`);
+    }
   });
 }
 
