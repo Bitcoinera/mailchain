@@ -1,812 +1,484 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_governanceToken",
-        "type": "address"
-      },
-      { "internalType": "address", "name": "_admin", "type": "address" },
-      {
-        "internalType": "uint256",
-        "name": "_motionDuration",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_motionsCountLimit",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_objectionsThreshold",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_evmScriptExecutor",
-        "type": "address"
-      }
-    ],
-    "name": "EVMScriptExecutorChanged",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_evmScriptFactory",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes",
-        "name": "_permissions",
-        "type": "bytes"
-      }
-    ],
-    "name": "EVMScriptFactoryAdded",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_evmScriptFactory",
-        "type": "address"
-      }
-    ],
-    "name": "EVMScriptFactoryRemoved",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "_motionId",
-        "type": "uint256"
-      }
-    ],
-    "name": "MotionCanceled",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "_motionId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "_creator",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_evmScriptFactory",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes",
-        "name": "_evmScriptCallData",
-        "type": "bytes"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes",
-        "name": "_evmScript",
-        "type": "bytes"
-      }
-    ],
-    "name": "MotionCreated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_motionDuration",
-        "type": "uint256"
-      }
-    ],
-    "name": "MotionDurationChanged",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "_motionId",
-        "type": "uint256"
-      }
-    ],
-    "name": "MotionEnacted",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "_motionId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_objector",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_weight",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_newObjectionsAmount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_newObjectionsAmountPct",
-        "type": "uint256"
-      }
-    ],
-    "name": "MotionObjected",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "_motionId",
-        "type": "uint256"
-      }
-    ],
-    "name": "MotionRejected",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_newMotionsCountLimit",
-        "type": "uint256"
-      }
-    ],
-    "name": "MotionsCountLimitChanged",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_newThreshold",
-        "type": "uint256"
-      }
-    ],
-    "name": "ObjectionsThresholdChanged",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "Paused",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "role",
-        "type": "bytes32"
-      },
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "previousAdminRole",
-        "type": "bytes32"
-      },
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "newAdminRole",
-        "type": "bytes32"
-      }
-    ],
-    "name": "RoleAdminChanged",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "role",
-        "type": "bytes32"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      }
-    ],
-    "name": "RoleGranted",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "role",
-        "type": "bytes32"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      }
-    ],
-    "name": "RoleRevoked",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "Unpaused",
-    "type": "event"
-  },
-  {
+    "constant": true,
     "inputs": [],
-    "name": "CANCEL_ROLE",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "name": "hasInitialized",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "DEFAULT_ADMIN_ROLE",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "MAX_MOTIONS_LIMIT",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "MAX_OBJECTIONS_THRESHOLD",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "MIN_MOTION_DURATION",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "PAUSE_ROLE",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "UNPAUSE_ROLE",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_evmScriptFactory",
-        "type": "address"
-      },
-      { "internalType": "bytes", "name": "_permissions", "type": "bytes" }
-    ],
-    "name": "addEVMScriptFactory",
+    "constant": false,
+    "inputs": [{ "name": "_objectionPhaseTime", "type": "uint64" }],
+    "name": "unsafelyChangeObjectionPhaseTime",
     "outputs": [],
+    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
+    "constant": false,
     "inputs": [
-      { "internalType": "uint256", "name": "_motionId", "type": "uint256" },
-      { "internalType": "address", "name": "_objector", "type": "address" }
+      { "name": "_token", "type": "address" },
+      { "name": "_supportRequiredPct", "type": "uint64" },
+      { "name": "_minAcceptQuorumPct", "type": "uint64" },
+      { "name": "_voteTime", "type": "uint64" },
+      { "name": "_objectionPhaseTime", "type": "uint64" }
     ],
-    "name": "canObjectToMotion",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "name": "initialize",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "UNSAFELY_MODIFY_VOTE_TIME_ROLE",
+    "outputs": [{ "name": "", "type": "bytes32" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [{ "name": "_voteTime", "type": "uint64" }],
+    "name": "unsafelyChangeVoteTime",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "_script", "type": "bytes" }],
+    "name": "getEVMScriptExecutor",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [],
-    "name": "cancelAllMotions",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "getRecoveryVault",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "_motionId", "type": "uint256" }
-    ],
-    "name": "cancelMotion",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "constant": true,
+    "inputs": [],
+    "name": "MODIFY_QUORUM_ROLE",
+    "outputs": [{ "name": "", "type": "bytes32" }],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256[]", "name": "_motionIds", "type": "uint256[]" }
-    ],
-    "name": "cancelMotions",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "constant": true,
+    "inputs": [],
+    "name": "objectionPhaseTime",
+    "outputs": [{ "name": "", "type": "uint64" }],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   },
   {
+    "constant": true,
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "_evmScriptFactory",
-        "type": "address"
-      },
-      { "internalType": "bytes", "name": "_evmScriptCallData", "type": "bytes" }
+      { "name": "_voteId", "type": "uint256" },
+      { "name": "_voter", "type": "address" }
     ],
-    "name": "createMotion",
+    "name": "getVoterState",
+    "outputs": [{ "name": "", "type": "uint8" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "_voteId", "type": "uint256" }],
+    "name": "getVote",
     "outputs": [
-      { "internalType": "uint256", "name": "_newMotionId", "type": "uint256" }
+      { "name": "open", "type": "bool" },
+      { "name": "executed", "type": "bool" },
+      { "name": "startDate", "type": "uint64" },
+      { "name": "snapshotBlock", "type": "uint64" },
+      { "name": "supportRequired", "type": "uint64" },
+      { "name": "minAcceptQuorum", "type": "uint64" },
+      { "name": "yea", "type": "uint256" },
+      { "name": "nay", "type": "uint256" },
+      { "name": "votingPower", "type": "uint256" },
+      { "name": "script", "type": "bytes" },
+      { "name": "phase", "type": "uint8" }
     ],
-    "stateMutability": "nonpayable",
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "_motionId", "type": "uint256" },
-      { "internalType": "bytes", "name": "_evmScriptCallData", "type": "bytes" }
-    ],
-    "name": "enactMotion",
+    "constant": false,
+    "inputs": [{ "name": "_minAcceptQuorumPct", "type": "uint64" }],
+    "name": "changeMinAcceptQuorumPct",
     "outputs": [],
+    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
+    "constant": true,
     "inputs": [],
-    "name": "evmScriptExecutor",
-    "outputs": [
-      {
-        "internalType": "contract IEVMScriptExecutor",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "name": "MODIFY_SUPPORT_ROLE",
+    "outputs": [{ "name": "", "type": "bytes32" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "evmScriptFactories",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "constant": false,
+    "inputs": [{ "name": "_supportRequiredPct", "type": "uint64" }],
+    "name": "changeSupportRequiredPct",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "token", "type": "address" }],
+    "name": "allowRecoverability",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "evmScriptFactoryPermissions",
-    "outputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
+    "constant": true,
     "inputs": [],
-    "name": "getEVMScriptFactories",
-    "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" }
-    ],
+    "name": "appId",
+    "outputs": [{ "name": "", "type": "bytes32" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "_motionId", "type": "uint256" }
-    ],
-    "name": "getMotion",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "id", "type": "uint256" },
-          {
-            "internalType": "address",
-            "name": "evmScriptFactory",
-            "type": "address"
-          },
-          { "internalType": "address", "name": "creator", "type": "address" },
-          { "internalType": "uint256", "name": "duration", "type": "uint256" },
-          { "internalType": "uint256", "name": "startDate", "type": "uint256" },
-          {
-            "internalType": "uint256",
-            "name": "snapshotBlock",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "objectionsThreshold",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "objectionsAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "evmScriptHash",
-            "type": "bytes32"
-          }
-        ],
-        "internalType": "struct EasyTrack.Motion",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
+    "constant": true,
     "inputs": [],
-    "name": "getMotions",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "id", "type": "uint256" },
-          {
-            "internalType": "address",
-            "name": "evmScriptFactory",
-            "type": "address"
-          },
-          { "internalType": "address", "name": "creator", "type": "address" },
-          { "internalType": "uint256", "name": "duration", "type": "uint256" },
-          { "internalType": "uint256", "name": "startDate", "type": "uint256" },
-          {
-            "internalType": "uint256",
-            "name": "snapshotBlock",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "objectionsThreshold",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "objectionsAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "evmScriptHash",
-            "type": "bytes32"
-          }
-        ],
-        "internalType": "struct EasyTrack.Motion[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
+    "name": "getInitializationBlock",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [{ "name": "_token", "type": "address" }],
+    "name": "transferToVault",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [
-      { "internalType": "bytes32", "name": "role", "type": "bytes32" }
+      { "name": "_sender", "type": "address" },
+      { "name": "_role", "type": "bytes32" },
+      { "name": "_params", "type": "uint256[]" }
     ],
-    "name": "getRoleAdmin",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "name": "canPerform",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
+    "constant": true,
     "inputs": [],
-    "name": "governanceToken",
-    "outputs": [
-      { "internalType": "contract IMiniMeToken", "name": "", "type": "address" }
-    ],
+    "name": "getEVMScriptRegistry",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
-      { "internalType": "address", "name": "account", "type": "address" }
-    ],
-    "name": "grantRole",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
-      { "internalType": "address", "name": "account", "type": "address" }
-    ],
-    "name": "hasRole",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_maybeEVMScriptFactory",
-        "type": "address"
-      }
-    ],
-    "name": "isEVMScriptFactory",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
+    "constant": true,
     "inputs": [],
-    "name": "motionDuration",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "voteTime",
+    "outputs": [{ "name": "", "type": "uint64" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "motions",
-    "outputs": [
-      { "internalType": "uint256", "name": "id", "type": "uint256" },
-      {
-        "internalType": "address",
-        "name": "evmScriptFactory",
-        "type": "address"
-      },
-      { "internalType": "address", "name": "creator", "type": "address" },
-      { "internalType": "uint256", "name": "duration", "type": "uint256" },
-      { "internalType": "uint256", "name": "startDate", "type": "uint256" },
-      { "internalType": "uint256", "name": "snapshotBlock", "type": "uint256" },
-      {
-        "internalType": "uint256",
-        "name": "objectionsThreshold",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "objectionsAmount",
-        "type": "uint256"
-      },
-      { "internalType": "bytes32", "name": "evmScriptHash", "type": "bytes32" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
+    "constant": true,
     "inputs": [],
-    "name": "motionsCountLimit",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "CREATE_VOTES_ROLE",
+    "outputs": [{ "name": "", "type": "bytes32" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
+    "constant": true,
     "inputs": [
-      { "internalType": "uint256", "name": "_motionId", "type": "uint256" }
+      { "name": "_sender", "type": "address" },
+      { "name": "", "type": "bytes" }
     ],
-    "name": "objectToMotion",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "", "type": "uint256" },
-      { "internalType": "address", "name": "", "type": "address" }
-    ],
-    "name": "objections",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "name": "canForward",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [{ "name": "_voteId", "type": "uint256" }],
+    "name": "canExecute",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      { "name": "_voteId", "type": "uint256" },
+      { "name": "_voter", "type": "address" }
+    ],
+    "name": "canVote",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [],
-    "name": "objectionsThreshold",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "kernel",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "pause",
-    "outputs": [],
+    "constant": false,
+    "inputs": [
+      { "name": "_executionScript", "type": "bytes" },
+      { "name": "_metadata", "type": "string" }
+    ],
+    "name": "newVote",
+    "outputs": [{ "name": "voteId", "type": "uint256" }],
+    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [{ "name": "_evmScript", "type": "bytes" }],
+    "name": "forward",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [],
-    "name": "paused",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "name": "minAcceptQuorumPct",
+    "outputs": [{ "name": "", "type": "uint64" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_evmScriptFactory",
-        "type": "address"
-      }
-    ],
-    "name": "removeEVMScriptFactory",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
-      { "internalType": "address", "name": "account", "type": "address" }
-    ],
-    "name": "renounceRole",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
-      { "internalType": "address", "name": "account", "type": "address" }
-    ],
-    "name": "revokeRole",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_evmScriptExecutor",
-        "type": "address"
-      }
-    ],
-    "name": "setEVMScriptExecutor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_motionDuration",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMotionDuration",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_motionsCountLimit",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMotionsCountLimit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_objectionsThreshold",
-        "type": "uint256"
-      }
-    ],
-    "name": "setObjectionsThreshold",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }
-    ],
-    "name": "supportsInterface",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "constant": true,
+    "inputs": [],
+    "name": "isPetrified",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
+    "constant": true,
     "inputs": [],
-    "name": "unpause",
+    "name": "votesLength",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_voteId", "type": "uint256" },
+      { "name": "_supports", "type": "bool" },
+      { "name": "_executesIfDecided_deprecated", "type": "bool" }
+    ],
+    "name": "vote",
     "outputs": [],
+    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_executionScript", "type": "bytes" },
+      { "name": "_metadata", "type": "string" },
+      { "name": "_castVote", "type": "bool" },
+      { "name": "_executesIfDecided_deprecated", "type": "bool" }
+    ],
+    "name": "newVote",
+    "outputs": [{ "name": "voteId", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "_voteId", "type": "uint256" }],
+    "name": "getVotePhase",
+    "outputs": [{ "name": "", "type": "uint8" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{ "name": "_voteId", "type": "uint256" }],
+    "name": "executeVote",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "supportRequiredPct",
+    "outputs": [{ "name": "", "type": "uint64" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "token",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "PCT_BASE",
+    "outputs": [{ "name": "", "type": "uint64" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "isForwarder",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "voteId", "type": "uint256" },
+      { "indexed": true, "name": "creator", "type": "address" },
+      { "indexed": false, "name": "metadata", "type": "string" }
+    ],
+    "name": "StartVote",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "voteId", "type": "uint256" },
+      { "indexed": true, "name": "voter", "type": "address" },
+      { "indexed": false, "name": "supports", "type": "bool" },
+      { "indexed": false, "name": "stake", "type": "uint256" }
+    ],
+    "name": "CastVote",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "voteId", "type": "uint256" },
+      { "indexed": true, "name": "voter", "type": "address" },
+      { "indexed": false, "name": "stake", "type": "uint256" }
+    ],
+    "name": "CastObjection",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": true, "name": "voteId", "type": "uint256" }],
+    "name": "ExecuteVote",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "name": "supportRequiredPct", "type": "uint64" }
+    ],
+    "name": "ChangeSupportRequired",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "name": "minAcceptQuorumPct", "type": "uint64" }
+    ],
+    "name": "ChangeMinQuorum",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "name": "voteTime", "type": "uint64" }],
+    "name": "ChangeVoteTime",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "name": "objectionPhaseTime", "type": "uint64" }
+    ],
+    "name": "ChangeObjectionPhaseTime",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "executor", "type": "address" },
+      { "indexed": false, "name": "script", "type": "bytes" },
+      { "indexed": false, "name": "input", "type": "bytes" },
+      { "indexed": false, "name": "returnData", "type": "bytes" }
+    ],
+    "name": "ScriptResult",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "vault", "type": "address" },
+      { "indexed": true, "name": "token", "type": "address" },
+      { "indexed": false, "name": "amount", "type": "uint256" }
+    ],
+    "name": "RecoverToVault",
+    "type": "event"
   }
 ]

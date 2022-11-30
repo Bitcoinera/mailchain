@@ -9,9 +9,9 @@ const mailchainAddress = process.env.MAILCHAIN_ADDRESS;
 const mailchain = Mailchain.fromSecretRecoveryPhrase(secretRecoveryPhrase);
 
 async function smartContractListener() {
-  const daoContractAddress = "0xAf072C8D368E4DD4A9d4fF6A76693887d6ae92Af";
+  const daoContractAddress = "0x2e59A20f205bB85a89C53f1936454680651E618e";
   const provider = new ethers.providers.WebSocketProvider(
-    `wss://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_WEBSOCKET}`
+    `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_WEBSOCKET}`
   );
   const contract = new ethers.Contract(
     daoContractAddress,
@@ -19,21 +19,19 @@ async function smartContractListener() {
     provider
   );
 
-  console.log(
-    "Listening for transfers on the Goerli Lido Finance DAO contract"
-  );
-  contract.on("MotionEnacted", async (motionId) => {
-    console.log(`Motion #${motionId} has been enacted on Lido Finance`);
+  console.log("Listening for transfers on the Lido Finance DAO contract");
+  contract.on("ExecuteVote", async (voteId) => {
+    console.log(`Proposal #${voteId} has been enacted on Lido Finance`);
     // send email
 
     try {
       const result = await mailchain.sendMail({
         from: `bitcoinera@mailchain.com`, // sender address
         to: [mailchainAddress], // list of recipients (blockchain or mailchain addresses)
-        subject: `Motion #${motionId} enacted on Lido Finance`, // subject line
+        subject: `Proposal #${voteId} enacted on Lido Finance`, // subject line
         content: {
-          text: `Proposal #${motionId} has been successfully enacted! 🎉`, // plain text body
-          html: `<p>Proposal #${motionId} has been successfully enacted! 🎉</p>`, // html body
+          text: `Proposal #${voteId} has been successfully enacted! 🎉`, // plain text body
+          html: `<p>Proposal #${voteId} has been successfully enacted! 🎉</p>`, // html body
         },
       });
       console.log(`Notification email sent: ${result}`);
