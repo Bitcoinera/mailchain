@@ -19,7 +19,9 @@ async function smartContractListener() {
     provider
   );
 
-  console.log("Listening for transfers on the Lido Finance DAO contract");
+  console.log(
+    "Listening for transfers on the Ethereum Lido Finance DAO contract"
+  );
   contract.on("ExecuteVote", async (voteId) => {
     console.log(`Proposal #${voteId} has been enacted on Lido Finance`);
     // send email
